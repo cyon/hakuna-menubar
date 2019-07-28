@@ -25,7 +25,9 @@ enabling auto-launch, which can be set from there.
 
 ![Settings](screenshot-expanded.png)
 
-## Developing
+**Make sure that the *Task Type* is correct before you start the timer the first time!**
+
+## Contributing
 
 To make changes to the application you just have to clone the repository and run the following
 commands.
