@@ -1,6 +1,6 @@
 {
   "name": "hakuna-menubar",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "productName": "Hakuna Menubar",
   "description": "Hakuna Menubar app for macOS",
   "main": "main.js",
