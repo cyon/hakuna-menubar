@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+ssh://git@github.com/cyon/hakuna-app.git"
+    "url": "git+ssh://git@github.com/cyon/hakuna-menubar.git"
   },
   "keywords": [
     "hakuna",
