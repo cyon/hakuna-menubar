@@ -201,7 +201,10 @@ function showPreferencesWindow () {
     preferencesWindow = new BrowserWindow({
       width: 400,
       height: 300,
-      resizable: false
+      resizable: false,
+      webPreferences: {
+        nodeIntegration: true
+      }
     })
     preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
     preferencesWindow.show()
