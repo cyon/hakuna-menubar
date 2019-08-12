@@ -208,6 +208,19 @@ function showPreferencesWindow () {
     })
     preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
     preferencesWindow.show()
+    Menu.setApplicationMenu(Menu.buildFromTemplate(
+      [
+        { role: 'appMenu' },
+        {
+          role: 'editMenu',
+          submenu: [
+            { role: 'copy' },
+            { role: 'paste' },
+            { role: 'cut' },
+          ]
+        },
+      ])
+    )
   }
 }
 
