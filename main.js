@@ -5,7 +5,8 @@ const {
   app,
   ipcMain,
   systemPreferences,
-  shell
+  shell,
+  nativeTheme
 } = require('electron')
 const path = require('path')
 const Client = require('hakuna-client')
@@ -55,7 +56,7 @@ async function initTray () {
   let autoLaunchEnabled = await autoLauncher.isEnabled()
 
   if (!tray) {
-    var darkMode = systemPreferences.isDarkMode()
+    var darkMode = nativeTheme.shouldUseDarkColors
     tray = new Tray(path.join(__dirname, `/tray-icon-${darkMode ? 'dark' : 'light'}.png`))
     tray.on('click', toggleTimer)
     tray.on('right-click', displayContextMenu)
@@ -203,11 +204,13 @@ function showPreferencesWindow () {
       height: 300,
       resizable: false,
       webPreferences: {
-        nodeIntegration: true
+        nodeIntegration: true,
+        contextIsolation: false
       }
     })
     preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
     preferencesWindow.show()
+    preferencesWindow.openDevTools()
     Menu.setApplicationMenu(Menu.buildFromTemplate(
       [
         { role: 'appMenu' },
@@ -254,7 +257,7 @@ function setCurrentTime () {
     })
 
     client.getTimer((err, timer) => {
-      var darkMode = systemPreferences.isDarkMode()
+      var darkMode = nativeTheme.shouldUseDarkColors
 
       if (!timer.date) {
         var trayIconPlay = (darkMode ? 'tray-icon-play-dark@2x.png' : 'tray-icon-play-light.png')
