@@ -4,7 +4,6 @@ const {
   Tray,
   app,
   ipcMain,
-  systemPreferences,
   shell,
   nativeTheme
 } = require('electron')
@@ -25,6 +24,7 @@ var tray = null
 var preferencesWindow = null
 var client = null
 var interval = null
+var intervalOverview = null
 var contextMenu = null
 
 app.on('ready', () => {
@@ -45,11 +45,23 @@ app.on('ready', () => {
   })
 
   client.overview((err, result) => {
-    if (!err) return initTray()
+    if (!err) return initApp()
 
     showPreferencesWindow()
   })
 })
+
+function initApp () {
+  if (interval) {
+    clearInterval(interval)
+    clearInterval(intervalOverview)
+  }
+
+  interval = setInterval(setCurrentTime, 1000 * 10)
+  intervalOverview = setInterval(initTray, 1000 * 60 * 10)
+
+  initTray()
+}
 
 async function initTray () {
   hideDock()
@@ -60,8 +72,7 @@ async function initTray () {
     tray = new Tray(path.join(__dirname, `/tray-icon-${darkMode ? 'dark' : 'light'}.png`))
     tray.on('click', toggleTimer)
     tray.on('right-click', displayContextMenu)
-    if (interval) clearInterval(interval)
-    interval = setInterval(setCurrentTime, 1000 * 10)
+
     setCurrentTime()
   }
 
@@ -245,7 +256,7 @@ ipcMain.on('login', (evt, values) => {
       preferencesWindow.hide()
     }, 2000)
 
-    initTray()
+    initApp()
   })
 })
 
