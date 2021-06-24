@@ -221,7 +221,7 @@ function showPreferencesWindow () {
     })
     preferencesWindow.loadURL(`file://${__dirname}/preferences.html`)
     preferencesWindow.show()
-    preferencesWindow.openDevTools()
+
     Menu.setApplicationMenu(Menu.buildFromTemplate(
       [
         { role: 'appMenu' },
