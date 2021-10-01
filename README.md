@@ -20,10 +20,6 @@ you run it to enter it.
 
 ![Preferences](preferences.png)
 
-If you can't open the application because it's from a unidentified developer, just right-click
-the Application click **Open** and then **Open** again. This is normal as the app is not signed.
-
-![Unidentified Developer](unidentified-developer.png)
 
 After that the application only shows up in your menubar. There are a few settings, like
 enabling auto-launch, which can be set from there.
