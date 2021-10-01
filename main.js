@@ -14,6 +14,19 @@ const moment = require('moment')
 const leftPad = require('left-pad')
 const { exec } = require('child_process')
 const AutoLaunch = require('auto-launch')
+const { autoUpdater } = require('electron-updater')
+
+autoUpdater.checkForUpdates()
+setInterval(() => {
+  autoUpdater.checkForUpdates()
+}, 1000 * 60 * 10)
+
+let updateAvailable = false
+autoUpdater.on('update-downloaded', () => {
+  updateAvailable = true
+
+  initTray()
+})
 
 const autoLauncher = new AutoLaunch({
   name: 'Hakuna Menubar',
@@ -107,7 +120,7 @@ async function initTray () {
     template.push({ type: 'separator' })
   }
 
-  contextMenu = Menu.buildFromTemplate([
+  template = [
     ...template,
     { label: 'Open website', click: () => { shell.openExternal(`https://${config.get('company')}.hakuna.ch`) } },
     {
@@ -170,7 +183,14 @@ async function initTray () {
     { type: 'separator' },
     { label: 'Give feedback', click: () => { shell.openExternal(`https://www.github.com/cyon/hakuna-menubar/issues/new`) } },
     { label: 'Quit', click: () => { app.quit() } }
-  ])
+  ]
+
+  if (updateAvailable) {
+    template.push({ type: 'separator' })
+    template.push({ label: 'Install update', click: () => { autoUpdater.quitAndInstall() } })
+  }
+
+  contextMenu = Menu.buildFromTemplate(template)
 }
 
 function displayContextMenu () {
